@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostra 2°B</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="cabecario">Aqui ficará a barra de navegação</div>
+    </header>
+    <main>
+        <h1 class="titulo">Título da Página</h1>
+        <h1 class="titulo">Aqui ficará o conteúdo Principal</h1>
+    </main>
+    <footer class="rodape">
+        <h4>Aqui ficarão informações sobre nós</h4>
+    </footer>
+
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        function lerTexto(texto) {
+            const utterance = new SpeechSynthesisUtterance(texto);
+            utterance.lang = 'pt-BR'; // Define o idioma
+            window.speechSynthesis.speak(utterance);
+        }
+
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+    <script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2026/05/06/00/20260506003322-655CSK0X.js" defer></script>
+
+</body>
+
+</html>

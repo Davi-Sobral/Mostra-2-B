@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+header {
+  width: 100dvw;
+  height: 10dvh;
+  background-color: aqua;
+  font-size: 2rem;
+}
+main {
+  background-color: chocolate;
+  width: 100dvw;
+  height: 80dvh;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+.titulo {
+  font-size: 3rem;
+}
+footer {
+  background-color: chartreuse;
+  width: 100dvw;
+  height: 10dvh;
+}

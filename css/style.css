@@ -1,0 +1,145 @@
+:root {
+  --adc-white: #ffffff;
+  --adc-black: #000000;
+  --adc-body: #555555;
+  --adc-border: #e0e0e0;
+  /* Azul médio — logo e navegação (modelo) */
+  --adc-accent: #3d6fa8;
+  --adc-accent-hover: #325d8f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  color: var(--adc-body);
+  background: var(--adc-white);
+}
+
+.site-header {
+  background-color: var(--adc-white);
+}
+
+.header-inner {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.logo-text {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--adc-accent);
+  line-height: 1.2;
+}
+
+.logo:hover .logo-text {
+  color: var(--adc-accent-hover);
+}
+
+.nav-link-custom {
+  color: var(--adc-accent);
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.nav-link-custom:hover {
+  color: var(--adc-accent-hover);
+}
+
+.nav-link-custom:focus-visible {
+  outline: 2px solid var(--adc-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.section-block {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.intro {
+  padding-top: 2rem;
+}
+
+.intro-title {
+  margin: 0 0 1rem;
+  color: var(--adc-black);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.intro-lead {
+  margin: 0;
+  max-width: 40rem;
+  color: var(--adc-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 400;
+  text-align: left;
+}
+
+.feature-card {
+  background: var(--adc-white);
+  border: 1px solid var(--adc-border);
+  border-radius: 6px;
+  padding: 1.75rem 1.5rem;
+}
+
+.feature-icon {
+  line-height: 1;
+  color: var(--adc-accent);
+}
+
+.feature-icon i {
+  font-size: 1.35rem;
+  font-weight: normal;
+  opacity: 0.95;
+}
+
+.feature-card-title {
+  margin: 0 0 0.75rem;
+  color: var(--adc-black);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.feature-card-text {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--adc-body);
+}
+
+.about-title {
+  margin: 0 0 0.75rem;
+  color: var(--adc-black);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.about-text {
+  color: var(--adc-body);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

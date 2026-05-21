@@ -1,115 +1,1195 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Além do Copo</title>
-    <meta
-      name="description"
-      content="Além do Copo — equipe e soluções digitais com foco em design e presença online."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container header-inner d-flex align-items-center justify-content-between">
-        <a class="logo text-decoration-none" href="#" aria-label="Além do Copo — início">
-          <span class="logo-text">ALÉM DO COPO</span>
-        </a>
-        <nav>
-          <a class="nav-link-custom" href="#sobre">SOBRE NÓS</a>
-        </nav>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alcoolismo — Informação e Apoio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOKENS & RESET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --sw: 88px;
+  --sc: 52px;
+  --dark:   #12100E;
+  --dark2:  #1E1A16;
+  --mid:    #3A2F24;
+  --accent: #D92243;
+  --gold:   #F69D39;
+  --sand:   #E0C375;
+  --cream:  #FFF5E5;
+  --muted:  #9E8270;
+  --redbg:  #fdeaed;
+  --green:  #2D6B2D;
+  --greenbg:#EAF3DE;
+  --blue:   #185FA5;
+  --bluebg: #E6F1FB;
+  --font-h: 'Playfair Display', serif;
+  --font-b: 'DM Sans', sans-serif;
+  --ease:   cubic-bezier(0.22,1,0.36,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-b);
+  background: var(--cream);
+  color: var(--dark);
+  overflow-x: hidden;
+  /* scrollbar visible */
+  overflow-y: scroll;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. SCROLLBAR — paleta, Chromium + Firefox
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* Firefox */
+html { scrollbar-width: thin; scrollbar-color: var(--accent) var(--dark2); }
+/* Chromium */
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: var(--dark2); }
+::-webkit-scrollbar-thumb        { background: var(--accent); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: var(--gold); }
+::-webkit-scrollbar-corner       { background: var(--dark2); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PAGE VEIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#page-veil {
+  position:fixed; inset:0; background:var(--dark);
+  z-index:9999; pointer-events:none;
+  transition: opacity .6s ease;
+}
+#page-veil.out { opacity:0; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SIDEBAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sidebar {
+  position:fixed; left:0; top:0; bottom:0;
+  width:var(--sw);
+  background:var(--dark);
+  display:flex; flex-direction:column; align-items:center;
+  padding:18px 0 24px; gap:4px;
+  z-index:400;
+  border-right:.5px solid rgba(255,255,255,.07);
+  transition: width .5s var(--ease);
+  overflow:hidden;
+}
+.sidebar.collapsed { width:var(--sc); }
+
+.sidebar-toggle {
+  width:36px; height:36px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  background:rgba(255,255,255,.06);
+  border:.5px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.5); font-size:18px;
+  margin-bottom:12px; flex-shrink:0;
+  transition:all .25s;
+}
+.sidebar-toggle:hover {
+  background:rgba(217,34,67,.2); color:#fff; border-color:rgba(217,34,67,.4);
+}
+
+.nav-item {
+  width:64px; height:56px; border-radius:13px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:4px; cursor:pointer;
+  color:rgba(255,255,255,.36);
+  border:.5px solid transparent;
+  transition:all .25s; font-size:10px; font-weight:500;
+  text-decoration:none; white-space:nowrap; flex-shrink:0;
+}
+.nav-item i { font-size:19px; line-height:1; }
+.nav-item span { transition:opacity .3s; }
+.nav-item:hover  { color:rgba(255,255,255,.85); background:rgba(255,255,255,.05); }
+.nav-item.active { color:#fff; background:rgba(217,34,67,.18); border-color:rgba(217,34,67,.45); }
+.sidebar.collapsed .nav-item { width:40px; height:40px; border-radius:10px; }
+.sidebar.collapsed .nav-item span { opacity:0; font-size:0; height:0; overflow:hidden; }
+
+/* Mobile hamburger */
+.mobile-nav-toggle {
+  display:none;
+  position:fixed; top:12px; left:12px;
+  width:42px; height:42px; border-radius:10px;
+  background:var(--dark); border:.5px solid rgba(255,255,255,.15);
+  color:#fff; font-size:20px;
+  align-items:center; justify-content:center;
+  cursor:pointer; z-index:500;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MAIN WRAP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.main-wrap {
+  margin-left:var(--sw);
+  transition:margin-left .5s var(--ease);
+}
+.main-wrap.shifted { margin-left:var(--sc); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   2. PAGE SECTIONS — exactly 100dvh
+   3. No section-dividers — subtle inset shadow instead
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.page-section {
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
+  position: relative;
+  /* 3. Subtle clean transition — no dividers */
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.10);
+}
+.page-section.visible { opacity:1; transform:translateY(0); }
+
+/* Scroll-reveal */
+[data-scroll] {
+  opacity:0; transform:translateY(24px);
+  transition:opacity .65s var(--ease), transform .65s var(--ease);
+}
+[data-scroll].in-view { opacity:1; transform:translateY(0); }
+
+/* Typography */
+.section-header { margin-bottom:clamp(22px,3vh,40px); }
+.section-h2 {
+  font-family:var(--font-h);
+  font-size:clamp(1.65rem, 2.6vw, 2.7rem);
+  font-weight:700; line-height:1.2; margin-bottom:8px;
+  color:var(--dark);
+}
+.section-desc {
+  font-size:clamp(13px, 1.3vw, 15px);
+  color:var(--muted); max-width:640px; line-height:1.78;
+}
+.dark-h2   { color:#fff!important; }
+.dark-desc { color:rgba(255,255,255,.46)!important; }
+
+@keyframes fadeInDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HOME — distribui em 100dvh sem overflow
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#sec-home { background:var(--dark); }
+
+/* Hero strip — fixed height, flex-shrink:0 */
+.hero {
+  flex-shrink: 0;
+  height: clamp(50px, 8dvh, 68px);
+  display:flex; align-items:center;
+  background:var(--dark);
+  position:relative; overflow:hidden;
+  padding: 0 clamp(20px, 5vw, 72px);
+  border-bottom:.5px solid rgba(255,255,255,.06);
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1600&q=80&auto=format') center/cover;
+  opacity:.06;
+}
+.hero-bar { position:relative; z-index:2; display:flex; align-items:center; gap:18px; width:100%; }
+.hero-h1  {
+  font-family:var(--font-h);
+  font-size:clamp(1rem, 2vw, 2.4rem);
+  font-weight:800; color:#fff; line-height:1.1; white-space:nowrap;
+  animation:fadeInDown .8s ease both;
+}
+.hero-h1 em { color:var(--gold); font-style:normal; }
+.hero-rule  {
+  height:2px; flex:1; min-width:16px;
+  background:linear-gradient(90deg,var(--accent),var(--gold),transparent);
+  border-radius:2px; animation:fadeInDown .8s .18s ease both;
+}
+
+/* Stats bar — flex-shrink:0, auto height */
+.home-stats {
+  flex-shrink:0;
+  display:flex;
+  background:var(--dark2);
+  border-bottom:.5px solid rgba(255,255,255,.06);
+}
+.stat-item {
+  flex:1;
+  padding: clamp(10px,1.8vh,24px) clamp(12px,2vw,36px);
+  border-right:.5px solid rgba(255,255,255,.07);
+  transition:background .28s;
+}
+.stat-item:last-child { border-right:none; }
+.stat-item:hover      { background:rgba(255,255,255,.03); }
+.stat-item .num {
+  font-family:var(--font-h);
+  font-size:clamp(1.25rem, 2vw, 2.4rem);
+  font-weight:800;
+  background:linear-gradient(135deg,var(--gold),var(--sand));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.stat-item .lbl {
+  font-size:clamp(9px,.85vw,12px);
+  color:rgba(255,255,255,.4); margin-top:4px; line-height:1.35;
+}
+
+/* Home body — fills remaining space with grid */
+.home-body {
+  flex:1;
+  min-height:0;        /* critical: allows flex child to shrink */
+  display:grid;
+  grid-template-columns: 1fr clamp(180px,22vw,300px);
+  gap:clamp(28px,4vw,70px);
+  align-items:center;
+  padding: clamp(20px,3.5vh,56px) clamp(20px,5vw,72px);
+  background:var(--cream);
+  overflow:hidden;
+}
+.home-text h2 {
+  font-family:var(--font-h);
+  font-size:clamp(1.5rem, 2.8vw, 2.9rem);
+  font-weight:700; color:var(--dark); line-height:1.2; margin-bottom:14px;
+}
+.home-text h2 em { color:var(--accent); font-style:normal; }
+.home-text p {
+  font-size:clamp(12.5px, 1.15vw, 15.5px);
+  color:var(--muted); line-height:1.8; max-width:500px;
+}
+
+/* Animated glass — proportional */
+.glass-scene {
+  position:relative;
+  width:100%;
+  max-width:240px;
+  aspect-ratio:240/316;
+  margin:0 auto;
+}
+.glass-svg   { width:100%; height:100%; filter:drop-shadow(0 12px 36px rgba(0,0,0,.38)); animation:glass-float 4s ease-in-out infinite; }
+@keyframes glass-float { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-13px) rotate(1deg)} }
+.glass-glow  { position:absolute; bottom:-16px; left:50%; transform:translateX(-50%); width:68%; height:16px; background:rgba(217,34,67,.17); border-radius:50%; filter:blur(12px); animation:glow-pulse 4s ease-in-out infinite; }
+@keyframes glow-pulse { 0%,100%{opacity:.36;transform:translateX(-50%) scaleX(1)} 50%{opacity:.58;transform:translateX(-50%) scaleX(1.1)} }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   5. INFO — 2×2 grid, full width, no img-row
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.info-wrap {
+  flex:1; min-height:0;
+  padding: clamp(28px,4.5vh,64px) clamp(20px,5vw,72px);
+  background:var(--cream);
+  display:flex; flex-direction:column; justify-content:center;
+  overflow:hidden;
+}
+
+/* 2×2 equal grid, full available width */
+.info-grid {
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: clamp(12px,1.6vw,22px);
+  flex:1; min-height:0;
+}
+.info-card {
+  background:#fff;
+  border:.5px solid #EAE0D2; border-radius:20px;
+  padding: clamp(18px,2.2vh,28px) clamp(16px,1.8vw,24px);
+  display:flex; flex-direction:column; gap:0;
+  transition:transform .35s var(--ease), box-shadow .35s, border-color .25s;
+  overflow:hidden;
+}
+.info-card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(217,34,67,.1);
+  border-color:rgba(217,34,67,.28);
+}
+.info-card-icon {
+  width:46px; height:46px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; margin-bottom:12px; flex-shrink:0;
+  transition:transform .3s;
+}
+.info-card:hover .info-card-icon { transform:scale(1.1) rotate(-4deg); }
+.info-card h3 { font-size:clamp(12.5px,1.1vw,15px); font-weight:600; margin-bottom:7px; color:var(--dark); }
+.info-card p  { font-size:clamp(11.5px,.95vw,13.5px); color:var(--muted); line-height:1.7; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FASES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.fases-wrap {
+  flex:1; min-height:0; overflow-y:auto;
+  padding: clamp(28px,4.5vh,64px) clamp(20px,5vw,72px);
+  background:var(--dark2);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.fases-list { display:flex; flex-direction:column; gap:clamp(8px,1vh,13px); margin-top:clamp(20px,2.5vh,32px); }
+.fase-card {
+  background:rgba(255,255,255,.04);
+  border:.5px solid rgba(255,255,255,.08); border-radius:18px;
+  padding: clamp(14px,1.8vh,24px) clamp(18px,2.5vw,32px);
+  display:flex; flex-direction:row; align-items:center; gap:clamp(16px,2vw,32px);
+  position:relative; overflow:hidden;
+  transition:all .35s var(--ease);
+}
+.fase-card::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
+  border-radius:4px 0 0 4px; transition:width .3s;
+}
+.fase-card:nth-child(1)::before { background:#639922; }
+.fase-card:nth-child(2)::before { background:#F69D39; }
+.fase-card:nth-child(3)::before { background:#E0C375; }
+.fase-card:nth-child(4)::before { background:#D85A30; }
+.fase-card:nth-child(5)::before { background:#D92243; }
+.fase-card:hover { background:rgba(255,255,255,.07); transform:translateX(5px); box-shadow:0 6px 28px rgba(0,0,0,.2); }
+.fase-card:hover::before { width:6px; }
+
+.fase-illus {
+  flex-shrink:0;
+  width:clamp(56px,6.5vw,80px); height:clamp(56px,6.5vw,80px);
+  border-radius:15px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,.05);
+  transition:transform .35s, background .3s;
+}
+.fase-card:hover .fase-illus { transform:scale(1.07); background:rgba(255,255,255,.09); }
+.fase-illus svg { width:52%; height:52%; }
+
+.fase-content { flex:1; min-width:0; }
+.fase-num  { font-family:var(--font-h); font-size:.66rem; font-weight:700; letter-spacing:.15em; color:rgba(255,255,255,.22); margin-bottom:3px; text-transform:uppercase; }
+.fase-card h3 { font-size:clamp(13px,1.2vw,16px); font-weight:600; color:#fff; margin-bottom:4px; }
+.fase-card p  { font-size:clamp(11px,.95vw,13px); color:rgba(255,255,255,.5); line-height:1.65; }
+
+.fase-tag {
+  flex-shrink:0; padding:5px 13px; border-radius:30px;
+  font-size:clamp(9.5px,.85vw,11px); font-weight:600; letter-spacing:.06em;
+  border:.5px solid; white-space:nowrap;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   QUIZ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.quiz-wrap {
+  flex:1; min-height:0; overflow-y:auto;
+  padding: clamp(28px,4vh,64px) clamp(20px,5vw,72px);
+  background:var(--cream);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.quiz-inner { max-width:800px; margin:0 auto; width:100%; }
+.quiz-container {
+  background:#fff; border:.5px solid #EAE0D2;
+  border-radius:22px; padding:clamp(22px,3.5vh,42px) clamp(18px,2.8vw,42px);
+  margin-top:clamp(18px,2.5vh,28px); transition:box-shadow .35s;
+}
+.quiz-container:hover { box-shadow:0 12px 48px rgba(217,34,67,.06); }
+.quiz-progress-bar { height:4px; background:#EDE5D8; border-radius:2px; margin-bottom:clamp(18px,2.5vh,28px); overflow:hidden; }
+.quiz-bar-fill     { height:100%; background:var(--accent); border-radius:2px; transition:width .4s cubic-bezier(.4,0,.2,1); }
+.quiz-q   { font-family:var(--font-h); font-size:clamp(1.05rem,1.4vw,1.38rem); font-weight:600; color:var(--dark); margin-bottom:clamp(14px,2vh,22px); line-height:1.4; }
+.quiz-opts { display:flex; flex-direction:column; gap:7px; }
+.quiz-opt {
+  background:var(--cream); border:.5px solid #DDD5C8;
+  border-radius:10px; padding:11px 16px; font-size:clamp(12.5px,1vw,14px);
+  cursor:pointer; text-align:left; font-family:var(--font-b); color:var(--dark);
+  transition:all .18s; display:flex; align-items:center; gap:10px;
+}
+.quiz-opt:hover    { background:#FFF0D6; border-color:var(--gold); transform:translateX(3px); }
+.quiz-opt.selected { background:var(--redbg); border-color:rgba(217,34,67,.4); color:var(--accent); font-weight:500; }
+.quiz-opt-dot { width:17px; height:17px; border-radius:50%; border:1.5px solid #CCC5B8; flex-shrink:0; transition:all .18s; }
+.quiz-opt.selected .quiz-opt-dot { background:var(--accent); border-color:var(--accent); }
+.quiz-nav     { display:flex; justify-content:space-between; align-items:center; margin-top:clamp(16px,2vh,24px); }
+.quiz-counter { font-size:12.5px; color:var(--muted); }
+.quiz-result  { display:none; text-align:center; padding:14px 0; }
+.quiz-result.show { display:block; }
+.result-ring  { width:120px; height:120px; margin:0 auto 18px; position:relative; }
+.result-ring svg { transform:rotate(-90deg); }
+.result-number { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.result-number .num { font-family:var(--font-h); font-size:2.2rem; font-weight:700; color:var(--dark); }
+.result-number .pts { font-size:11.5px; color:var(--muted); }
+.result-title { font-family:var(--font-h); font-size:1.4rem; font-weight:600; margin-bottom:9px; }
+.result-box   { border-radius:12px; padding:16px 20px; margin:14px 0; text-align:left; font-size:13.5px; line-height:1.65; }
+.btn-reset {
+  background:var(--dark); color:#fff; border:none; padding:10px 24px;
+  border-radius:9px; font-size:13px; cursor:pointer; font-family:var(--font-b); font-weight:500;
+  transition:background .2s,transform .15s;
+}
+.btn-reset:hover { background:var(--mid); transform:translateY(-2px); }
+.btn-quiz-secondary {
+  background:transparent; color:var(--accent); border:1px solid rgba(217,34,67,.3);
+  padding:10px 18px; border-radius:9px; font-size:13px; cursor:pointer;
+  font-family:var(--font-b); font-weight:600; margin-left:7px;
+  display:inline-flex; align-items:center; gap:5px; transition:all .2s;
+}
+.btn-quiz-secondary:hover { background:var(--redbg); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   4. IA — Botpress inline
+   (see comment block for widget notes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ia-wrap {
+  flex:1; min-height:0;
+  padding: clamp(28px,4vh,64px) clamp(20px,5vw,72px);
+  background:var(--dark2);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.ia-inner { max-width:960px; margin:0 auto; width:100%; flex:1; min-height:0; display:flex; flex-direction:column; }
+
+.bp-container {
+  flex:1; min-height:0;
+  margin-top:clamp(20px,2.5vh,32px);
+  border-radius:18px; overflow:hidden;
+  border:.5px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.2);
+  position:relative;
+}
+
+/* Suppress floating Botpress button everywhere outside the container */
+[id*="bp-web-widget-btn"],
+[class*="bpw-floating"],
+[class*="bpw-powered"] { display:none!important; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   7–8. AJUDA — hover palette + full-click cards
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.help-wrap {
+  flex:1; min-height:0; overflow-y:auto;
+  padding: clamp(28px,4vh,64px) clamp(20px,5vw,72px);
+  background:#fff;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.help-inner { max-width:1400px; margin:0 auto; width:100%; }
+
+.crisis-strip {
+  background:var(--redbg); border:1px solid rgba(217,34,67,.32); border-radius:15px;
+  padding: clamp(14px,2vh,22px) clamp(16px,2.2vw,28px);
+  margin-bottom:clamp(20px,2.8vh,36px);
+  display:flex; align-items:center; gap:16px;
+  animation:pulse-border 3s ease infinite; transition:transform .3s;
+}
+.crisis-strip:hover { transform:scale(1.003); }
+@keyframes pulse-border { 0%,100%{border-color:rgba(217,34,67,.26)} 50%{border-color:rgba(217,34,67,.7)} }
+.crisis-strip i  { font-size:clamp(20px,2.2vw,26px); color:var(--accent); flex-shrink:0; }
+.crisis-strip h4 { font-size:clamp(12.5px,1.1vw,14.5px); font-weight:600; color:var(--accent); margin-bottom:3px; }
+.crisis-strip p  { font-size:clamp(11px,.95vw,12.5px); color:var(--accent); opacity:.82; }
+
+.help-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:clamp(12px,1.4vw,20px);
+}
+
+/* 8. Full-area click via anchor wrapping entire card */
+.help-card-link {
+  text-decoration:none; color:inherit; display:block;
+  border-radius:18px; overflow:hidden;
+  border:.5px solid #EAE0D2;
+  background:var(--cream);
+  transition:all .35s var(--ease);
+  position:relative;
+}
+/* 7. Palette hover: lift + accent border + gradient bottom bar */
+.help-card-link:hover {
+  transform:translateY(-7px);
+  box-shadow:0 18px 42px rgba(217,34,67,.11);
+  border-color:rgba(217,34,67,.32);
+}
+.help-card-link::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .35s var(--ease);
+  border-radius:0 0 18px 18px;
+}
+.help-card-link:hover::after { transform:scaleX(1); }
+
+.help-card-img { height:clamp(110px,12vh,162px); overflow:hidden; }
+.help-card-img img { width:100%; height:100%; object-fit:cover; filter:saturate(.78); transition:transform .4s, filter .4s; }
+.help-card-link:hover .help-card-img img { transform:scale(1.06); filter:saturate(1); }
+
+.help-card-body { padding:clamp(12px,1.8vh,20px) clamp(12px,1.6vw,20px) clamp(14px,2vh,22px); }
+.help-card-icon {
+  width:36px; height:36px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:17px; margin-bottom:9px; transition:transform .3s;
+}
+.help-card-link:hover .help-card-icon { transform:scale(1.1) rotate(-4deg); }
+.help-card-body h3 { font-size:clamp(12.5px,1vw,14px); font-weight:600; margin-bottom:5px; color:var(--dark); }
+.help-card-body p  { font-size:clamp(11px,.9vw,12.5px); color:var(--muted); line-height:1.65; }
+.ext-link {
+  color:var(--accent); font-size:12px; font-weight:600;
+  display:inline-flex; align-items:center; gap:3px; margin-top:7px;
+  transition:gap .2s;
+}
+.help-card-link:hover .ext-link { gap:6px; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VLibras — next to sidebar
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+[vw] { position:fixed!important; bottom:16px; left:calc(var(--sw) + 10px)!important; z-index:8000!important; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   9. RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Tablet landscape ≤1200px */
+@media (max-width:1200px) {
+  :root { --sw:72px; --sc:44px; }
+  .nav-item { width:56px; height:52px; }
+  .home-body { grid-template-columns:1fr 220px; gap:36px; }
+  .help-grid { grid-template-columns:repeat(2,1fr); }
+  .info-grid { gap:14px; }
+  .fases-wrap, .quiz-wrap, .ia-wrap, .help-wrap { padding-left:clamp(20px,4vw,52px); padding-right:clamp(20px,4vw,52px); }
+}
+
+/* Tablet portrait ≤860px */
+@media (max-width:860px) {
+  :root { --sw:0px; --sc:0px; }
+
+  .sidebar {
+    width:0; left:-8px;
+    transition:width .45s var(--ease), left .45s var(--ease);
+    box-shadow:none;
+  }
+  .sidebar.mobile-open {
+    width:200px; left:0;
+    box-shadow:4px 0 24px rgba(0,0,0,.5);
+  }
+  .sidebar.mobile-open .nav-item {
+    width:168px; height:46px; flex-direction:row;
+    justify-content:flex-start; padding:0 16px;
+    gap:11px; font-size:13px; border-radius:9px;
+  }
+  .sidebar.mobile-open .nav-item i { font-size:18px; }
+  .sidebar.mobile-open .nav-item span { opacity:1; font-size:13px; height:auto; }
+  .mobile-nav-toggle { display:flex; }
+
+  .main-wrap, .main-wrap.shifted { margin-left:0; }
+  [vw] { left:12px!important; bottom:60px!important; }
+
+  /* Hero */
+  .hero-h1   { font-size:clamp(1rem,3.5vw,1.4rem); white-space:normal; }
+  .hero-rule { display:none; }
+  .hero      { padding:0 16px 0 60px; } /* space for hamburger */
+
+  /* Home: single column */
+  .home-body { grid-template-columns:1fr; gap:20px; padding:clamp(16px,3.5vw,36px); }
+  .glass-scene { max-width:140px; }
+
+  /* Stats: 2 per row */
+  .home-stats   { flex-wrap:wrap; }
+  .stat-item    { flex:0 0 50%; border-bottom:.5px solid rgba(255,255,255,.07); }
+  .stat-item:nth-child(2n) { border-right:none; }
+
+  /* Info: 1 col */
+  .info-grid { grid-template-columns:1fr; grid-template-rows:auto; }
+
+  /* Help */
+  .help-grid { grid-template-columns:1fr; }
+
+  /* Fases */
+  .fases-wrap { padding:clamp(18px,3.5vw,36px); }
+  .fases-list { gap:9px; }
+  .fase-tag   { display:none; }
+
+  /* Quiz */
+  .quiz-wrap { padding:clamp(18px,3.5vw,36px); }
+  .quiz-container { padding:20px 18px; }
+
+  /* IA */
+  .ia-wrap { padding:clamp(18px,3.5vw,36px); }
+}
+
+/* Phone ≤540px */
+@media (max-width:540px) {
+  .hero-h1   { font-size:.9rem; }
+  .stat-item { flex:0 0 100%; border-right:none; }
+  .home-body { grid-template-columns:1fr; }
+  .glass-scene { display:none; }
+  .info-grid { grid-template-columns:1fr; }
+  .help-grid { grid-template-columns:1fr; }
+  .crisis-strip { flex-direction:column; text-align:center; }
+  .section-h2 { font-size:1.45rem; }
+  .section-desc { font-size:12.5px; }
+  .fase-illus { width:50px; height:50px; }
+  .quiz-opts { gap:6px; }
+  .hero { padding-left:56px; }
+}
+
+/* XS ≤360px */
+@media (max-width:360px) {
+  .hero, .info-wrap, .fases-wrap, .quiz-wrap, .ia-wrap, .help-wrap { padding-left:12px; padding-right:12px; }
+  .quiz-container { padding:16px 12px; }
+  .fase-card { padding:12px 14px; gap:11px; }
+}
+</style>
+</head>
+<body>
+
+<div id="page-veil"></div>
+
+<!-- ══════════ VLibras ══════════
+  NOTA: O VLibras requer:
+  1. Elemento [vw] presente no DOM antes do script carregar
+  2. O script vlibras-plugin.js não pode ser bloqueado por CSP
+  3. Inicialização chamada após DOMContentLoaded
+  Se não aparecer: verificar bloqueio de rede/CSP ou extensões do browser.
+-->
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
+
+<!-- Mobile hamburger -->
+<button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Abrir menu">
+  <i class="ti ti-menu-2"></i>
+</button>
+
+<!-- ━━━ SIDEBAR ━━━ -->
+<nav class="sidebar" id="sidebar" aria-label="Navegação principal">
+  <div class="sidebar-toggle" id="sidebar-toggle" title="Recolher / expandir" role="button" tabindex="0">
+    <i class="ti ti-arrow-left" id="toggle-icon"></i>
+  </div>
+  <!-- 6. data-target matches section IDs for precise navigation -->
+  <a class="nav-item active" href="#sec-home"  data-target="sec-home"  title="Início">   <i class="ti ti-home"></i><span>Início</span></a>
+  <a class="nav-item"        href="#sec-info"  data-target="sec-info"  title="O que é">  <i class="ti ti-book"></i><span>O que é</span></a>
+  <a class="nav-item"        href="#sec-fases" data-target="sec-fases" title="Fases">    <i class="ti ti-chart-line"></i><span>Fases</span></a>
+  <a class="nav-item"        href="#sec-quiz"  data-target="sec-quiz"  title="Teste">    <i class="ti ti-clipboard-check"></i><span>Teste</span></a>
+  <a class="nav-item"        href="#sec-ia"    data-target="sec-ia"    title="IA">       <i class="ti ti-robot"></i><span>IA</span></a>
+  <a class="nav-item"        href="#sec-ajuda" data-target="sec-ajuda" title="Ajuda">    <i class="ti ti-heart"></i><span>Ajuda</span></a>
+</nav>
+
+<!-- ━━━ MAIN ━━━ -->
+<div class="main-wrap" id="main-wrap">
+
+  <!-- ═══ HOME — distributes into 100dvh ═══ -->
+  <section class="page-section" id="sec-home" data-section="sec-home">
+
+    <!-- Hero strip: flex-shrink:0 -->
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-bar">
+        <h1 class="hero-h1">Alcoolismo — Entenda, Avalie e <em>Encontre Saída</em></h1>
+        <div class="hero-rule"></div>
       </div>
-    </header>
+    </div>
 
-    <main>
-      <section class="intro section-block">
-        <div class="container">
-          <h1 class="intro-title">Welcome to Além do Copo</h1>
-          <p class="intro-lead">
-            Somos uma equipe de designers talentosos criando sites com Bootstrap, alinhados à
-            identidade da sua marca.
-          </p>
+    <!-- Stats bar: flex-shrink:0 -->
+    <div class="home-stats" data-scroll>
+      <div class="stat-item"><div class="num">+10M</div><div class="lbl">brasileiros afetados pelo alcoolismo</div></div>
+      <div class="stat-item"><div class="num">90%</div><div class="lbl">podem se recuperar com suporte</div></div>
+      <div class="stat-item"><div class="num">SUS</div><div class="lbl">tratamento 100% gratuito</div></div>
+      <div class="stat-item"><div class="num">188</div><div class="lbl">CVV — apoio emocional 24h</div></div>
+      <div class="stat-item"><div class="num">149</div><div class="lbl">SENAD — dependência química</div></div>
+    </div>
+
+    <!-- Body: flex:1, fills remaining space -->
+    <div class="home-body">
+      <div class="home-text" data-scroll>
+        <h2>Entenda o vício<br/>em <em>álcool</em><br/>e encontre saída</h2>
+        <p>Conteúdo baseado em evidências científicas, autoavaliação validada pela OMS e suporte com inteligência artificial — tudo para ajudar você ou quem você ama. Navegue pelas seções usando o menu lateral.</p>
+      </div>
+      <div data-scroll style="transition-delay:.1s; display:flex; align-items:center; justify-content:center;">
+        <div class="glass-scene">
+          <svg class="glass-svg" viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="glassClip"><path d="M60,60 L220,60 L195,330 L85,330 Z"/></clipPath>
+              <linearGradient id="liqGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#D92243" stop-opacity=".88"/>
+                <stop offset="50%" stop-color="#F69D39" stop-opacity=".94"/>
+                <stop offset="100%" stop-color="#D92243" stop-opacity=".88"/>
+              </linearGradient>
+              <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="rgba(255,255,255,.3)"/>
+                <stop offset="40%" stop-color="rgba(255,255,255,.05)"/>
+                <stop offset="100%" stop-color="rgba(255,255,255,.15)"/>
+              </linearGradient>
+            </defs>
+            <g clip-path="url(#glassClip)">
+              <rect x="55" y="160" width="170" height="175" fill="url(#liqGrad)"/>
+              <path d="M55,160 Q90,152 140,160 Q190,168 225,160 L225,174 Q190,166 140,174 Q90,182 55,174 Z" fill="rgba(224,195,117,.4)">
+                <animateTransform attributeName="transform" type="translate" values="0,0;-24,0;0,0" dur="3s" repeatCount="indefinite"/>
+              </path>
+              <path d="M55,160 Q105,168 140,160 Q175,152 225,160 L225,169 Q175,161 140,169 Q105,177 55,169 Z" fill="rgba(255,255,255,.11)">
+                <animateTransform attributeName="transform" type="translate" values="0,0;18,0;0,0" dur="4s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="92" cy="284" r="4" fill="rgba(255,255,255,.25)">
+                <animate attributeName="cy" values="304;170" dur="2.2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0;.7;0" dur="2.2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="138" cy="304" r="3" fill="rgba(255,255,255,.2)">
+                <animate attributeName="cy" values="314;176" dur="1.9s" begin=".5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0;.6;0" dur="1.9s" begin=".5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="168" cy="294" r="5" fill="rgba(255,255,255,.15)">
+                <animate attributeName="cy" values="310;164" dur="2.7s" begin="1s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0;.5;0" dur="2.7s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+            <path d="M60,60 L220,60 L195,330 L85,330 Z" fill="none" stroke="rgba(255,255,255,.19)" stroke-width="1.5"/>
+            <path d="M75,70 L85,310 Q75,314 73,310 L63,70 Z" fill="url(#glassGrad)" opacity=".6"/>
+            <ellipse cx="140" cy="60" rx="80" ry="10" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+            <ellipse cx="140" cy="330" rx="55" ry="10" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+            <rect x="84" y="210" width="34" height="30" rx="6" fill="rgba(200,230,255,.38)" stroke="rgba(255,255,255,.42)" stroke-width=".8"/>
+            <rect x="104" y="220" width="38" height="32" rx="6" fill="rgba(200,230,255,.34)" stroke="rgba(255,255,255,.38)" stroke-width=".8"/>
+            <rect x="152" y="212" width="32" height="28" rx="5" fill="rgba(200,230,255,.31)" stroke="rgba(255,255,255,.34)" stroke-width=".8"/>
+          </svg>
+          <div class="glass-glow"></div>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <section class="features section-block" aria-label="Destaques">
-        <div class="container">
-          <div class="row g-4">
-            <div class="col-md-4">
-              <article class="feature-card h-100">
-                <div class="feature-icon mb-3" aria-hidden="true">
-                  <i class="bi bi-bar-chart-line"></i>
-                </div>
-                <h2 class="feature-card-title">Corporis voluptates officia eiusmod</h2>
-                <p class="feature-card-text mb-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </article>
-            </div>
-            <div class="col-md-4">
-              <article class="feature-card h-100">
-                <div class="feature-icon mb-3" aria-hidden="true">
-                  <i class="bi bi-gem"></i>
-                </div>
-                <h2 class="feature-card-title">Ullamco laboris ladore pan</h2>
-                <p class="feature-card-text mb-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </article>
-            </div>
-            <div class="col-md-4">
-              <article class="feature-card h-100">
-                <div class="feature-icon mb-3" aria-hidden="true">
-                  <i class="bi bi-gear"></i>
-                </div>
-                <h2 class="feature-card-title">Labore consequatur incidid dolore</h2>
-                <p class="feature-card-text mb-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </article>
+  </section>
+
+  <!-- ═══ INFO — 2×2 grid ═══ -->
+  <section class="page-section" id="sec-info" data-section="sec-info">
+    <div class="info-wrap">
+      <div class="section-header" data-scroll>
+        <h2 class="section-h2">O que é o alcoolismo?</h2>
+        <p class="section-desc">Compreender a natureza da dependência é o primeiro passo para transformar qualquer situação.</p>
+      </div>
+      <!-- 5. 2×2 grid, same width as former img-row, no img-row -->
+      <div class="info-grid">
+        <div class="info-card" data-scroll style="transition-delay:.04s">
+          <div class="info-card-icon" style="background:#FEF3E2"><i class="ti ti-brain" style="color:#D92243"></i></div>
+          <h3>Doença neurológica</h3>
+          <p>O álcool altera circuitos de recompensa, controle de impulsos e memória. A dependência física e psicológica é real e mensurável neurologicamente.</p>
+        </div>
+        <div class="info-card" data-scroll style="transition-delay:.08s">
+          <div class="info-card-icon" style="background:#E6F1FB"><i class="ti ti-dna" style="color:#185FA5"></i></div>
+          <h3>Base genética</h3>
+          <p>50–60% do risco tem componente hereditário. Filhos de pais dependentes têm 3–4× mais chance de desenvolver dependência ao longo da vida.</p>
+        </div>
+        <div class="info-card" data-scroll style="transition-delay:.12s">
+          <div class="info-card-icon" style="background:#EAF3DE"><i class="ti ti-users" style="color:#2D6B2D"></i></div>
+          <h3>Impacto social amplo</h3>
+          <p>Afeta relacionamentos, emprego e finanças. No Brasil, +10 milhões de pessoas têm uso nocivo — e a maioria não reconhece o problema.</p>
+        </div>
+        <div class="info-card" data-scroll style="transition-delay:.16s">
+          <div class="info-card-icon" style="background:#fdeaed"><i class="ti ti-heartbeat" style="color:#D92243"></i></div>
+          <h3>Riscos à saúde</h3>
+          <p>Cirrose, pancreatite, cardiomiopatia, neuropatias e risco aumentado de 7 tipos de câncer são consequências do uso prolongado e nocivo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FASES ═══ -->
+  <section class="page-section" id="sec-fases" data-section="sec-fases">
+    <div class="fases-wrap">
+      <div class="section-header" data-scroll>
+        <h2 class="section-h2 dark-h2">Fases da dependência</h2>
+        <p class="section-desc dark-desc">Reconhecer a fase atual ajuda a escolher o tratamento mais adequado.</p>
+      </div>
+      <div class="fases-list">
+
+        <div class="fase-card" data-scroll style="transition-delay:.04s">
+          <div class="fase-illus">
+            <svg viewBox="0 0 50 50" fill="none"><circle cx="25" cy="25" r="20" stroke="#639922" stroke-width="1.4" fill="rgba(99,153,34,.1)"/><path d="M14 32 Q18 22 25 27 Q32 32 36 18" stroke="#639922" stroke-width="2.2" stroke-linecap="round"/><circle cx="25" cy="19" r="4.5" fill="rgba(99,153,34,.2)" stroke="#639922" stroke-width="1.4"/><path d="M23 19 L25 21 L28 17" stroke="#639922" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="fase-content">
+            <div class="fase-num">Fase 01</div>
+            <h3>Uso social</h3>
+            <p>Consumo em ocasiões sociais sem compulsão. Sem perda de controle. Risco baixo, mas atenção ao padrão de frequência e quantidade.</p>
+          </div>
+          <div class="fase-tag" style="color:#639922;border-color:rgba(99,153,34,.32);background:rgba(99,153,34,.08)">Baixo risco</div>
+        </div>
+
+        <div class="fase-card" data-scroll style="transition-delay:.08s">
+          <div class="fase-illus">
+            <svg viewBox="0 0 50 50" fill="none"><circle cx="25" cy="25" r="20" stroke="#F69D39" stroke-width="1.4" fill="rgba(246,157,57,.1)"/><path d="M17 34 L17 26 Q17 16 25 16 Q33 16 33 26 L33 34" stroke="#F69D39" stroke-width="2" stroke-linecap="round"/><path d="M21 27 Q25 23 29 27" stroke="#F69D39" stroke-width="1.5" stroke-linecap="round"/><circle cx="25" cy="36" r="2" fill="#F69D39"/></svg>
+          </div>
+          <div class="fase-content">
+            <div class="fase-num">Fase 02</div>
+            <h3>Uso problemático</h3>
+            <p>Frequência e quantidade aumentam. Começa a usar álcool para gerenciar emoções negativas, ansiedade e estresse cotidiano.</p>
+          </div>
+          <div class="fase-tag" style="color:#d08020;border-color:rgba(246,157,57,.32);background:rgba(246,157,57,.08)">Atenção</div>
+        </div>
+
+        <div class="fase-card" data-scroll style="transition-delay:.12s">
+          <div class="fase-illus">
+            <svg viewBox="0 0 50 50" fill="none"><circle cx="25" cy="25" r="20" stroke="#E0C375" stroke-width="1.4" fill="rgba(224,195,117,.1)"/><path d="M18 17 L18 36 M25 14 L25 36 M32 19 L32 36" stroke="#E0C375" stroke-width="2.2" stroke-linecap="round"/><path d="M15 36 L35 36" stroke="#E0C375" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="fase-content">
+            <div class="fase-num">Fase 03</div>
+            <h3>Abuso de álcool</h3>
+            <p>O consumo prejudica trabalho e relações. Há negação do problema. Primeiros conflitos significativos com família e ambiente profissional.</p>
+          </div>
+          <div class="fase-tag" style="color:#a08020;border-color:rgba(224,195,117,.4);background:rgba(224,195,117,.1)">Preocupante</div>
+        </div>
+
+        <div class="fase-card" data-scroll style="transition-delay:.16s">
+          <div class="fase-illus">
+            <svg viewBox="0 0 50 50" fill="none"><circle cx="25" cy="25" r="20" stroke="#D85A30" stroke-width="1.4" fill="rgba(216,90,48,.1)"/><path d="M25 14 L25 18 M25 32 L25 36 M14 25 L18 25 M32 25 L36 25" stroke="#D85A30" stroke-width="1.8" stroke-linecap="round"/><circle cx="25" cy="25" r="6" stroke="#D85A30" stroke-width="1.4" fill="rgba(216,90,48,.18)"/><path d="M23 25 L25 27 L28 23" stroke="#D85A30" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="fase-content">
+            <div class="fase-num">Fase 04</div>
+            <h3>Dependência</h3>
+            <p>Alta tolerância. Sintomas físicos ao parar (tremores, suores, ansiedade). Fissura intensa. A vida gira em torno do álcool.</p>
+          </div>
+          <div class="fase-tag" style="color:#D85A30;border-color:rgba(216,90,48,.32);background:rgba(216,90,48,.08)">Grave</div>
+        </div>
+
+        <div class="fase-card" data-scroll style="transition-delay:.2s">
+          <div class="fase-illus">
+            <svg viewBox="0 0 50 50" fill="none"><circle cx="25" cy="25" r="20" stroke="#D92243" stroke-width="1.4" fill="rgba(217,34,67,.1)"/><path d="M25 14 L27.5 21 L35 21 L29 25.5 L31.5 32.5 L25 28.5 L18.5 32.5 L21 25.5 L15 21 L22.5 21 Z" stroke="#D92243" stroke-width="1.3" fill="rgba(217,34,67,.18)" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="fase-content">
+            <div class="fase-num">Fase 05</div>
+            <h3>Dependência grave</h3>
+            <p>Perda total de controle. A abstinência sem suporte médico pode ser fatal (convulsões, delirium tremens). Ajuda médica imediata necessária.</p>
+          </div>
+          <div class="fase-tag" style="color:#D92243;border-color:rgba(217,34,67,.32);background:rgba(217,34,67,.08)">Urgente</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ QUIZ ═══ -->
+  <section class="page-section" id="sec-quiz" data-section="sec-quiz">
+    <div class="quiz-wrap">
+      <div class="quiz-inner">
+        <div class="section-header" data-scroll>
+          <h2 class="section-h2">Teste AUDIT (OMS)</h2>
+          <p class="section-desc">Questionário oficial de triagem de dependência — validado pela Organização Mundial da Saúde. Leva menos de 2 minutos.</p>
+        </div>
+        <div class="quiz-container" data-scroll>
+          <div class="quiz-progress-bar"><div class="quiz-bar-fill" id="qbar" style="width:0%"></div></div>
+          <div id="quiz-main">
+            <div class="quiz-q" id="qtext"></div>
+            <div class="quiz-opts" id="qopts"></div>
+            <div class="quiz-nav">
+              <span class="quiz-counter" id="qcount">Pergunta 1 de 10</span>
+              <span style="font-size:12px;color:var(--muted)">Selecione para avançar</span>
             </div>
           </div>
+          <div class="quiz-result" id="quiz-result">
+            <div class="result-ring">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#EDE5D8" stroke-width="8"/>
+                <circle id="ring-fill" cx="60" cy="60" r="50" fill="none" stroke="#D92243" stroke-width="8" stroke-linecap="round"
+                  stroke-dasharray="314" stroke-dashoffset="314"
+                  style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
+              </svg>
+              <div class="result-number">
+                <span class="num" id="res-score">0</span>
+                <span class="pts">pontos</span>
+              </div>
+            </div>
+            <div class="result-title" id="res-title"></div>
+            <div class="result-box"   id="res-box"></div>
+            <button class="btn-reset" onclick="resetQuiz()">Refazer avaliação</button>
+            <button class="btn-quiz-secondary" onclick="scrollToSection('sec-ia')">
+              Conversar sobre resultado <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
-      <section id="sobre" class="about section-block">
-        <div class="container">
-          <h2 class="about-title">Sobre nós</h2>
-          <p class="about-text mb-0 col-lg-8 px-0">
-            Esta é uma página inicial alinhada ao layout de referência. Substitua textos e imagens
-            pelo conteúdo definitivo da marca Além do Copo.
-          </p>
+  <!-- ═══ IA ═══ -->
+  <section class="page-section" id="sec-ia" data-section="sec-ia">
+    <div class="ia-wrap">
+      <div class="ia-inner">
+        <div class="section-header" data-scroll>
+          <h2 class="section-h2 dark-h2">Converse com a IA de Apoio</h2>
+          <p class="section-desc dark-desc">Tire dúvidas, compartilhe o que está sentindo — sem julgamentos, a qualquer hora.</p>
         </div>
-      </section>
-    </main>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+        <div id="bp-webchat-inline"
+             style="width:100%;
+                    height:calc(100% - 90px);
+                    min-height:520px;
+                    border-radius:18px;
+                    overflow:hidden;
+                    border:.5px solid rgba(255,255,255,0.1);
+                    background:rgba(0,0,0,.2);
+                    position:relative;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ AJUDA ═══ -->
+  <section class="page-section" id="sec-ajuda" data-section="sec-ajuda">
+    <div class="help-wrap">
+      <div class="help-inner">
+        <div class="section-header" data-scroll>
+          <h2 class="section-h2">Como buscar ajuda</h2>
+          <p class="section-desc">Existem opções gratuitas e acessíveis em todo o Brasil. Você não precisa passar por isso sozinho.</p>
+        </div>
+        <div class="crisis-strip" data-scroll>
+          <i class="ti ti-phone-call"></i>
+          <div>
+            <h4>Em crise? Ligue 188 (CVV) — gratuito, 24 horas</h4>
+            <p>Ou ligue 149 (SENAD) para orientação sobre dependência. Vá ao pronto-socorro se houver risco imediato.</p>
+          </div>
+        </div>
+
+        <!-- 8. Full-area clickable cards — anchor wraps the whole card -->
+        <div class="help-grid">
+
+          <a class="help-card-link" href="https://www.gov.br/saude/pt-br/composicao/saes/dadt/caps" target="_blank" rel="noopener" data-scroll style="transition-delay:.04s">
+            <div class="help-card-img">
+              <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80&auto=format" alt="CAPS-AD" loading="lazy"/>
+            </div>
+            <div class="help-card-body">
+              <div class="help-card-icon" style="background:var(--bluebg)"><i class="ti ti-building-hospital" style="color:var(--blue)"></i></div>
+              <h3>CAPS-AD (gratuito)</h3>
+              <p>Centro de Atenção Psicossocial pelo SUS. Equipe multidisciplinar, atendimento individual e em grupo.</p>
+              <span class="ext-link">Saiba mais <i class="ti ti-external-link"></i></span>
+            </div>
+          </a>
+
+          <a class="help-card-link" href="https://www.aa.org.br" target="_blank" rel="noopener" data-scroll style="transition-delay:.08s">
+            <div class="help-card-img">
+              <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&q=80&auto=format" alt="AA" loading="lazy"/>
+            </div>
+            <div class="help-card-body">
+              <div class="help-card-icon" style="background:var(--greenbg)"><i class="ti ti-users" style="color:var(--green)"></i></div>
+              <h3>Alcoólicos Anônimos</h3>
+              <p>Grupos de apoio gratuitos e anônimos em todo o Brasil. Reuniões presenciais e online disponíveis.</p>
+              <span class="ext-link">aa.org.br <i class="ti ti-external-link"></i></span>
+            </div>
+          </a>
+
+          <a class="help-card-link" href="tel:149" data-scroll style="transition-delay:.12s">
+            <div class="help-card-img">
+              <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=600&q=80&auto=format" alt="SENAD" loading="lazy"/>
+            </div>
+            <div class="help-card-body">
+              <div class="help-card-icon" style="background:#FFF0D6"><i class="ti ti-phone" style="color:#F69D39"></i></div>
+              <h3>SENAD — Ligue 149</h3>
+              <p>Central federal de orientação sobre álcool e drogas. Gratuito, 24 horas, encaminhamento para tratamento.</p>
+              <span class="ext-link">Ligar agora <i class="ti ti-arrow-right"></i></span>
+            </div>
+          </a>
+
+          <a class="help-card-link" href="https://www.al-anon.org.br" target="_blank" rel="noopener" data-scroll style="transition-delay:.16s">
+            <div class="help-card-img">
+              <img src="https://images.unsplash.com/photo-1541199249251-f713e6145474?w=600&q=80&auto=format" alt="Al-Anon" loading="lazy"/>
+            </div>
+            <div class="help-card-body">
+              <div class="help-card-icon" style="background:var(--redbg)"><i class="ti ti-heart-handshake" style="color:var(--accent)"></i></div>
+              <h3>Al-Anon (familiares)</h3>
+              <p>Suporte para famílias e amigos de pessoas com dependência. Grupos em todo o território nacional.</p>
+              <span class="ext-link">al-anon.org.br <i class="ti ti-external-link"></i></span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.main-wrap -->
+
+<!-- ══ VLibras ══ -->
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+<!-- ══ Botpress ══ -->
+<script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2026/05/06/00/20260506003322-655CSK0X.js" defer></script>
+
+<script>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   4. VLibras — init after DOM ready
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+document.addEventListener('DOMContentLoaded', () => {
+  /* VLibras */
+  try {
+    if (window.VLibras) new window.VLibras.Widget('https://vlibras.gov.br/app');
+  } catch(e) {
+    console.warn('[VLibras] init failed:', e);
+  }
+});
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   6. NAVIGATION — exact section scroll
+   Uses scrollIntoView on the section itself,
+   no manual offset math needed since sections
+   start at the top of the viewport stack
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.querySelectorAll('.nav-item[data-target]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    scrollToSection(link.dataset.target);
+    if (window.innerWidth <= 860) sidebar.classList.remove('mobile-open');
+  });
+});
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SIDEBAR — collapse (desktop) + drawer (mobile)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const sidebar    = document.getElementById('sidebar');
+const mainWrap   = document.getElementById('main-wrap');
+const toggleBtn  = document.getElementById('sidebar-toggle');
+const toggleIcon = document.getElementById('toggle-icon');
+let   collapsed  = false;
+
+toggleBtn.addEventListener('click', () => {
+  if (window.innerWidth <= 860) return;
+  collapsed = !collapsed;
+  sidebar.classList.toggle('collapsed', collapsed);
+  mainWrap.classList.toggle('shifted', collapsed);
+  toggleIcon.className = collapsed ? 'ti ti-arrow-right' : 'ti ti-arrow-left';
+});
+toggleBtn.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') toggleBtn.click(); });
+
+document.getElementById('mobile-toggle').addEventListener('click', () => {
+  sidebar.classList.toggle('mobile-open');
+});
+document.addEventListener('click', e => {
+  if (window.innerWidth <= 860
+    && !sidebar.contains(e.target)
+    && e.target !== document.getElementById('mobile-toggle')) {
+    sidebar.classList.remove('mobile-open');
+  }
+});
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SCROLL REVEAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+document.querySelectorAll('[data-scroll]').forEach(el => revealObs.observe(el));
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PAGE SECTION REVEAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const pageObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.02 });
+document.querySelectorAll('.page-section').forEach(s => pageObs.observe(s));
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   6. ACTIVE NAV — tracks current section
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.nav-item').forEach(nav =>
+        nav.classList.toggle('active', nav.dataset.target === e.target.id)
+      );
+    }
+  });
+}, { threshold: 0.45 });
+document.querySelectorAll('.page-section').forEach(s => navObs.observe(s));
+
+/* Page veil out */
+setTimeout(() => document.getElementById('page-veil').classList.add('out'), 80);
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   4. BOTPRESS — move widget inline,
+   suppress floating button
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+window.addEventListener('load', () => {
+  const container = document.getElementById('bp-webchat-inline');
+
+  const suppressBtn = () => {
+    document.querySelectorAll(
+      '[id*="bp-web-widget-btn"],[class*="bpw-floating"],[class*="bp-widget-btn"],[class*="bpw-powered"]'
+    ).forEach(el => {
+      if (!container.contains(el))
+        el.style.cssText = 'display:none!important;visibility:hidden!important;pointer-events:none!important;';
+    });
+  };
+
+  const tryMove = () => {
+    // Botpress v3.x injects a root-level div or iframe
+    const widget = document.querySelector(
+      'body > [id*="bp-web-widget"]:not([id*="btn"]), body > [class*="bpw-layout"], body > iframe[src*="botpress"]'
+    );
+    if (widget && !container.contains(widget)) {
+      widget.style.cssText = 'position:relative!important;width:100%!important;height:100%!important;bottom:auto!important;right:auto!important;inset:auto!important;';
+      container.appendChild(widget);
+    }
+    suppressBtn();
+  };
+
+  suppressBtn();
+  new MutationObserver(tryMove).observe(document.body, { childList:true, subtree:true });
+  [600, 1500, 3000, 5000].forEach(t => setTimeout(tryMove, t));
+});
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   QUIZ AUDIT (OMS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const Qs = [
+  {q:"Com que frequência você consome bebidas alcoólicas?",o:["Nunca","Mensalmente ou menos","2–4 vezes ao mês","2–3 vezes por semana","4 ou mais vezes por semana"],s:[0,1,2,3,4]},
+  {q:"Quantas doses você toma num dia típico em que bebe?",o:["1 ou 2","3 ou 4","5 ou 6","7, 8 ou 9","10 ou mais"],s:[0,1,2,3,4]},
+  {q:"Com que frequência você toma 6 ou mais doses em uma única ocasião?",o:["Nunca","Menos que mensalmente","Mensalmente","Semanalmente","Todos os dias ou quase"],s:[0,1,2,3,4]},
+  {q:"Nos últimos 12 meses, você não conseguiu parar de beber depois de começar?",o:["Nunca","Menos que mensalmente","Mensalmente","Semanalmente","Todos os dias ou quase"],s:[0,1,2,3,4]},
+  {q:"Com que frequência deixou de fazer algo esperado por causa do álcool?",o:["Nunca","Menos que mensalmente","Mensalmente","Semanalmente","Todos os dias ou quase"],s:[0,1,2,3,4]},
+  {q:"Com que frequência você bebeu pela manhã para aliviar a ressaca?",o:["Nunca","Menos que mensalmente","Mensalmente","Semanalmente","Todos os dias ou quase"],s:[0,1,2,3,4]},
+  {q:"Com que frequência você sentiu culpa ou remorso após beber?",o:["Nunca","Menos que mensalmente","Mensalmente","Semanalmente","Todos os dias ou quase"],s:[0,1,2,3,4]},
+  {q:"Com que frequência não conseguiu lembrar o que aconteceu por causa do álcool?",o:["Nunca","Menos que mensalmente","Mensalmente","Semanalmente","Todos os dias ou quase"],s:[0,1,2,3,4]},
+  {q:"Você ou alguém se feriu como resultado do seu consumo de álcool?",o:["Não","Sim, mas não nos últimos 12 meses","Sim, nos últimos 12 meses"],s:[0,2,4]},
+  {q:"Familiar, amigo ou médico demonstrou preocupação com seu consumo?",o:["Não","Sim, mas não nos últimos 12 meses","Sim, nos últimos 12 meses"],s:[0,2,4]}
+];
+let qi=0, answers=[], totalScore=0;
+
+function loadQ() {
+  const q = Qs[qi];
+  document.getElementById('qtext').textContent  = `${qi+1}. ${q.q}`;
+  document.getElementById('qcount').textContent = `Pergunta ${qi+1} de ${Qs.length}`;
+  document.getElementById('qbar').style.width   = `${(qi/Qs.length)*100}%`;
+  document.getElementById('qopts').innerHTML = q.o.map((o,i) =>
+    `<button class="quiz-opt ${answers[qi]===i?'selected':''}" onclick="selectQ(${i})">
+       <div class="quiz-opt-dot"></div>${o}
+     </button>`
+  ).join('');
+}
+
+function selectQ(i) {
+  answers[qi] = i;
+  document.querySelectorAll('.quiz-opt').forEach((b,idx) => b.classList.toggle('selected',idx===i));
+  setTimeout(() => { qi < Qs.length-1 ? (qi++, loadQ()) : showResult(); }, 340);
+}
+
+function showResult() {
+  totalScore = Qs.reduce((s,q,i) => s + (answers[i]!==undefined ? q.s[answers[i]] : 0), 0);
+  document.getElementById('quiz-main').style.display = 'none';
+  document.getElementById('qbar').style.width = '100%';
+  document.getElementById('quiz-result').classList.add('show');
+  document.getElementById('res-score').textContent = totalScore;
+  /* circumference of r=50: 2π×50 ≈ 314 */
+  const offset = 314 - (314 * Math.min(totalScore/40,1));
+  setTimeout(() => { document.getElementById('ring-fill').style.strokeDashoffset = offset; }, 100);
+
+  let title, msg, bg, col, strokeCol;
+  if      (totalScore<=7)  { title='Uso de baixo risco';              msg='Seu padrão indica baixo risco de dependência. Continue atento ao consumo e evite aumentar frequência ou quantidade.';                                               bg='#EAF3DE'; col='#2D6B2D'; strokeCol='#639922'; }
+  else if (totalScore<=15) { title='Uso problemático detectado';       msg='Há sinais de uso problemático. Uma conversa com médico ou psicólogo pode ajudar muito. Intervenção breve é altamente eficaz.';                                       bg='#FFF0D6'; col='#b07012'; strokeCol='#F69D39'; }
+  else if (totalScore<=19) { title='Uso nocivo — ação recomendada';    msg='Os resultados indicam uso nocivo com sinais de dependência. Procure um CAPS-AD, médico ou ligue 149. Você merece e pode ter ajuda.';                                bg='#FFF0D6'; col='#854F0B'; strokeCol='#D85A30'; }
+  else                     { title='Dependência grave — busque ajuda'; msg='Busque ajuda médica urgente. A abstinência sem acompanhamento pode ser perigosa. Ligue 149, CVV 188 ou vá a um pronto-socorro.'; bg='#fdeaed'; col='#D92243'; strokeCol='#D92243'; }
+
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('ring-fill').style.stroke = strokeCol;
+  const box = document.getElementById('res-box');
+  box.textContent = msg;
+  box.style.cssText = `background:${bg};color:${col};border:.5px solid ${strokeCol};border-radius:12px;padding:16px 20px;margin:14px 0;text-align:left;font-size:13.5px;line-height:1.65;`;
+}
+
+function resetQuiz() {
+  qi=0; answers=[]; totalScore=0;
+  document.getElementById('quiz-main').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('ring-fill').style.strokeDashoffset = '314';
+  loadQ();
+}
+
+loadQ();
+</script>
+</body>
 </html>
